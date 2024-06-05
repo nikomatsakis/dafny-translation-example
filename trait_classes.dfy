@@ -22,10 +22,10 @@ trait Platypus extends Animal, EggLayer, Mammal {
 class NorthernPlatypus extends Platypus {
   var age: string
   method Lay1Egg() {
-    print "A northern platypus layed one egg";
+    print "A northern platypus layed one egg\n";
   }
   method GiveMilk() {
-    print "A norther platypus gave milk";
+    print "A norther platypus gave milk\n";
   }
   method BecomeOlder() returns (f: () ~> string)
     ensures f.requires() && f.reads() == {this}
@@ -35,6 +35,8 @@ class NorthernPlatypus extends Platypus {
     return () reads this => "I am " + this.age + " years old";
   }
 }
+
+newtype uint8 = x: int | 0 <= x < 256
 
 method Main() {
   var plato := new NorthernPlatypus;
@@ -57,6 +59,12 @@ method Main() {
 
   // Method calls
   var f := a.BecomeOlder();
-  print f();
+  print f(), "\n";
   eg.Lay2Eggs();
+
+  // Arrays are objects
+  var x := new uint8[2];
+  var xo := x as object;
+  x[1] := 2 as uint8;
+  x[0] := x[1];
 }
